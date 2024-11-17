@@ -2,6 +2,7 @@
 package main
 
 import (
+	"atlan-outbound/constants"
 	"context"
 	"encoding/json"
 	"log"
@@ -12,8 +13,8 @@ import (
 
 func main() {
 	writer := kafka.NewWriter(kafka.WriterConfig{
-		Brokers: []string{"localhost:9092"},
-		Topic:   "metadata-notifications",
+		Brokers: []string{constants.KafkaURL},
+		Topic:   constants.KafkaComplianceEventTopic,
 	})
 	defer writer.Close()
 

@@ -2,6 +2,7 @@
 package main
 
 import (
+	"atlan-outbound/constants"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -20,9 +21,9 @@ type ComplianceEvent struct {
 
 func main() {
 	kafkaReader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: []string{"localhost:9092"},
-		Topic:   "metadata-notifications",
-		GroupID: "outbound-group",
+		Brokers: []string{constants.KafkaURL},
+		Topic:   constants.KafkaComplianceEventTopic,
+		GroupID: constants.KafkaComplianceGroupTopic,
 	})
 	defer kafkaReader.Close()
 

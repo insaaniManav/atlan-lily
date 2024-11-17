@@ -2,6 +2,7 @@
 package main
 
 import (
+	"atlan-inbound/constants"
 	"context"
 	"encoding/json"
 	"github.com/segmentio/kafka-go"
@@ -11,8 +12,8 @@ import (
 
 func main() {
 	writer := kafka.NewWriter(kafka.WriterConfig{
-		Brokers: []string{"localhost:9092"},
-		Topic:   "data-quality-events",
+		Brokers: []string{constants.KafkaURL},
+		Topic:   constants.DataQualityEventTopic,
 	})
 	defer writer.Close()
 

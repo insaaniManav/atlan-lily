@@ -1,6 +1,7 @@
 package main
 
 import (
+	"atlan-inbound/constants"
 	"bytes"
 	"context"
 	"encoding/json"
@@ -21,15 +22,13 @@ type DataQualityEvent struct {
 }
 
 func main() {
-	// Kafka setup
 	kafkaReader := kafka.NewReader(kafka.ReaderConfig{
-		Brokers: []string{"localhost:9092"},
-		Topic:   "data-quality-events",
-		GroupID: "inbound-group",
+		Brokers: []string{constants.KafkaURL},
+		Topic:   constants.DataQualityEventTopic,
+		GroupID: constants.DataQualityGroupId,
 	})
 	defer kafkaReader.Close()
 
-	// Elasticsearch setup
 	es, err := elasticsearch.NewDefaultClient()
 	if err != nil {
 		log.Fatalf("Error creating Elasticsearch client: %v", err)
@@ -37,13 +36,11 @@ func main() {
 
 	fmt.Println("Listening for data quality events...")
 	for {
-		// Read message from Kafka
 		msg, err := kafkaReader.ReadMessage(context.Background())
 		if err != nil {
 			log.Fatalf("Error reading message: %v", err)
 		}
 
-		// Parse the Kafka message
 		var event DataQualityEvent
 		if err := json.Unmarshal(msg.Value, &event); err != nil {
 			log.Printf("Error parsing message: %v", err)
@@ -52,8 +49,7 @@ func main() {
 
 		fmt.Printf("Received event: %+v\n", event)
 
-		// Index the event into Elasticsearch
-		indexName := "data-quality-events"
+		indexName := constants.DataQualityEventIndexName
 		eventJSON, err := json.Marshal(event)
 		if err != nil {
 			log.Printf("Error marshalling event: %v", err)
