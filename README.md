@@ -7,6 +7,7 @@ This repository provides a real-time metadata streaming solution that demonstrat
 
 ## Features
 
+
 - **Event-Driven Architecture**: Powered by Kafka for high-performance real-time streaming.
 - **Metadata Ingestion**: Efficiently indexes data quality events into Elasticsearch for fast search capabilities.
 - **Event Notifications**: Processes compliance metadata events and logs them for downstream consumption.
